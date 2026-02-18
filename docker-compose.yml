@@ -1,0 +1,40 @@
+version: "3"
+services:
+  node1:
+    build: 
+      context: .
+      args:
+        - UID=1000
+        - GID=1000
+    container_name: node1
+    privileged: true
+    tty: true
+    volumes:
+      - ./share:/home/ubuntu/share
+    working_dir: /home/ubuntu/share
+    networks:
+      chat_net:
+        ipv4_address: 10.100.0.10
+
+  node2:
+    build: 
+      context: .
+      args:
+        - UID=1000
+        - GID=1000
+    container_name: node2
+    privileged: true
+    tty: true
+    volumes:
+      - ./share:/home/ubuntu/share
+    working_dir: /home/ubuntu/share
+    networks:
+      chat_net:
+        ipv4_address: 10.100.0.20
+
+networks:
+  chat_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.100.0.0/16
